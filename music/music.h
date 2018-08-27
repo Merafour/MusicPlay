@@ -158,6 +158,8 @@ class Music : public QObject
 public:
     explicit Music(QObject *parent = nullptr);
 
+    static uint8_t g_volume;
+
     int open_music(const char *path);
     int save_music(const char *path);
     uint16_t rtttl(const char* _rtttl);

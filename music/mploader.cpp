@@ -188,6 +188,32 @@ int mploader::last()
     return __getSync();
 }
 
+int mploader::set_volume(uint8_t _vol)
+{
+    uint8_t buf[3];
+    buf[0] = Code::VOL_SET;
+    buf[1] = _vol;
+    buf[2] = Code::EOC;
+    this->clear();
+    QThread::msleep(1);
+    __send(buf, sizeof(buf));
+    have_data(100);
+    return __getSync();
+}
+
+int mploader::get_volume(uint8_t &_vol)
+{
+    uint8_t buf[2];
+    buf[0] = Code::VOL_GET;
+    buf[1] = Code::EOC;
+    this->clear();
+    QThread::msleep(1);
+    __send(buf, 2);
+    have_data(100);
+    _vol = __recv();
+    return __getSync();
+}
+
 int mploader::__recv_int()
 {
 #if 0

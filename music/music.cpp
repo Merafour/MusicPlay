@@ -18,6 +18,7 @@
 #include "mydialog.h"
 
 const uint32_t Music::buffer_size=BUFFER_SIZE;
+uint8_t Music::g_volume=10;
 /*
  * MusicPlay 格式歌曲示例
  */

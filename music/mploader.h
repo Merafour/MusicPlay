@@ -61,6 +61,8 @@ public:
         PAUSE = 0x65,    // pause
         NEXT  = 0x66,    // next play
         LAST  = 0x67,    // last play
+        VOL_GET = 0x68,    // get volume
+        VOL_SET = 0x69,    // set volume
     };
 
     enum Info {
@@ -91,6 +93,8 @@ public:
     int pause(void);
     int next(void);
     int last(void);
+    int set_volume(uint8_t _vol);
+    int get_volume(uint8_t &_vol);
 
     virtual int __recv(uint8_t buf[], const int count = 2)
     {

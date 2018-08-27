@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _send = 0;
     _busy = 0;
     fw = new Firmware;
+    ui->verticalSlider_volume->setValue(20);
+    _send = Process::Code::VOL_GET;
 
     // 语言转换与菜单
     Language_cutover();
@@ -103,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //msgLabel->setText("--MusicPlay--");
     //ui->statusBar->show();
     ui->statusBar->showMessage("MusicPlay", 3000);
-    //Scanning::scanning(1);
+    Scanning::scanning(1);
     progress->setFormat("ready");//
 }
 
@@ -443,11 +445,15 @@ void MainWindow::slots_progress_update(const QString &titel, int value)
         ui->menuLanguage->setEnabled(true);
         ui->menuBar->setEnabled(true);
         _send = 0;
-        Scanning::scanning(0);
+        //Scanning::scanning(0);
         return;
         break;
     case Process::Code::TIME:
         progress->setFormat(progress->text()+titel);
+        break;
+    case Process::Code::VOL_GET:
+        ui->label_volume->setText(QString::number(Music::g_volume));
+        ui->verticalSlider_volume->setValue(Music::g_volume);
         break;
     default:
         //this->ui->label_watting->setText(titel);
@@ -517,7 +523,7 @@ void MainWindow::on_pushButton_Send_clicked()
     ui->menuLanguage->setEnabled(false);
     ui->menuBar->setEnabled(false);
     _send = 1;
-    Scanning::scanning(1);
+    //Scanning::scanning(1);
     qDebug()<<QThread::currentThreadId();
 }
 
@@ -547,4 +553,23 @@ void MainWindow::on_pushButton_Pause_clicked()
     _send = Process::Code::PAUSE;
     Scanning::scanning(1);
     qDebug()<<QThread::currentThreadId();
+}
+
+void MainWindow::on_verticalSlider_volume_valueChanged(int value)
+{
+    //ui->label_volume->setText(QString::number(value));
+}
+
+void MainWindow::on_verticalSlider_volume_sliderMoved(int position)
+{
+    Music::g_volume = position;
+    ui->label_volume->setText(QString::number(Music::g_volume));
+    //_send = Process::Code::VOL_SET;
+}
+
+void MainWindow::on_verticalSlider_volume_sliderReleased()
+{
+    Music::g_volume = ui->verticalSlider_volume->value();
+    ui->label_volume->setText(QString::number(Music::g_volume));
+    _send = Process::Code::VOL_SET;
 }

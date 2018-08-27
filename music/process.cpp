@@ -10,6 +10,7 @@
 *******************************************************************************/
 #include "Process.h"
 #include "mploader.h"
+#include "music/music.h"
 #include <QDateTime>
 
 uint8_t Process::_exit = 0;
@@ -178,6 +179,15 @@ void Process::slots_doWork(const QString parameter, const Firmware *fw, int cmd)
                 break;
             case Process::Code::PAUSE:
                 up->pause();
+                break;
+            case Process::Code::VOL_GET:
+                if(0==up->get_volume(Music::g_volume))
+                {
+                    sig_progress_update(port, Code::VOL_GET);
+                }
+                break;
+            case Process::Code::VOL_SET:
+                up->set_volume(Music::g_volume);
                 break;
             default:
                 break;

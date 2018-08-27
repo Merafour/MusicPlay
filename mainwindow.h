@@ -55,6 +55,12 @@ private slots:
     void slots_scanning_update(const QString &titel, int value);
     void slots_Serial_Idle(const QString COM);
 
+    void on_verticalSlider_volume_valueChanged(int value);
+
+    void on_verticalSlider_volume_sliderMoved(int position);
+
+    void on_verticalSlider_volume_sliderReleased();
+
 private:
     // 绘制菜单即操作函数
     void create_menu(void);

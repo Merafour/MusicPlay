@@ -34,6 +34,8 @@ public:
         PAUSE = 0x0187,
         NEXT  = 0x0188,
         LAST  = 0x0189,
+        VOL_GET = 0x018A,
+        VOL_SET = 0x018B,
     };
     explicit Process(QObject *parent = nullptr);
     static void exit_thread(void) { _exit = 1;}
